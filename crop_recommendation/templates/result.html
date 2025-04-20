@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crop Prediction Result</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body style="background-image: url('/static/images/result.jpg'); background-size: cover; background-position: center; background-repeat: no-repeat; min-height: 100vh;">
+    <header>
+        <div class="logo">
+            <h1>Crop Recommendation</h1>
+        </div>
+        <nav>
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="/predict">Predict Again</a></li>
+                <li><a href="">About</a></li>
+                <li><a href="">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <div class="container">
+        <h2 class="heading">Recommended Crop</h2>
+        <p class="prediction-text">The best crop for your soil conditions is: <strong>{{ prediction }}</strong></p>
+    
+        <div class="ai-summary">
+            <h3 class="heading">AI Insights for {{ prediction }}</h3>
+            <div class="ai-insights">
+                {{ ai_summary|safe }}
+            </div>
+        </div>
+    
+        <a href="/predict" class="cta-button">Go Back</a>
+    </div>
+            
+
+    <footer>
+        <p>&copy; 2025 Crop Recommendation. All Rights Reserved.</p>
+    </footer>
+
+    <script>
+    document.addEventListener("DOMContentLoaded", () => {
+        const container = document.querySelector(".ai-insights");
+        if (!container) return;
+
+        const rawText = container.innerText.trim();
+        const sectionPattern = /\*\*(.*?)\*\*\s*([^*]+)/gs;
+        let match;
+        let formattedHTML = "";
+
+        while ((match = sectionPattern.exec(rawText)) !== null) {
+            const heading = match[1].trim();
+            const body = match[2].trim();
+            formattedHTML += `
+                <div class="insight-section" style="margin-bottom: 12px;">
+                    <h4 style="margin: 0 0 4px; color: #2c3e50;">${heading}</h4>
+                    <p style="margin: 0 0 4px 12px; line-height: 1.4;">${body}</p>
+                </div>
+            `;
+        }
+
+        container.innerHTML = formattedHTML;
+    });
+    </script>
+</body>
+</html>
