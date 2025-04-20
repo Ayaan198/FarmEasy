@@ -110,11 +110,15 @@ header nav ul li a:hover {
 .container {
     width: 80%;
     margin: auto;
-    padding: 20px;
+    padding-top: 20px;     /* Top padding */
+    padding-bottom: 20px;  /* Bottom padding */
+    padding-left: 20px;    /* Optional left padding */
+    padding-right: 20px;   /* Optional right padding */
     background-color: #fff;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     border-radius: 8px;
 }
+
 
 /* ===== Form Styles ===== */
 form {
@@ -249,4 +253,122 @@ footer ul li a:hover {
     background-color: #f4f4f4;
     border-radius: 5px; 
     margin-bottom: 20px; 
+}
+
+/* Modal Styles */
+.modal {
+    display: none; /* Hidden by default */
+    position: fixed; /* Stays in place even when the page is scrolled */
+    z-index: 1; /* Ensures it sits on top of other content */
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0,0,0,0.4); /* Black with opacity for background */
+}
+
+/* Modal Content Styles */
+.modal-content {
+    background-color: #fefefe;
+    margin: 15% auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%; /* Can adjust as needed */
+    max-width: 500px; /* Limiting the max width */
+}
+
+/* Close Button Styles */
+.close-btn {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.close-btn:hover,
+.close-btn:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+/* Style for the modal popup */
+.rain-popup {
+    display: none;
+    position: fixed;
+    top: 50%; /* Position vertically at the center */
+    left: 50%; /* Position horizontally at the center */
+    transform: translate(-50%, -50%); /* Adjust to truly center the modal */
+    background-color: white;
+    padding: 20px;
+    border: 1px solid #ccc;
+    z-index: 1000;
+    width: 300px; /* You can adjust the width as per your design */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    border-radius: 8px; /* Rounded corners */
+}
+
+/* Title of the modal */
+.rain-popup h4 {
+    font-size: 18px;
+    margin-bottom: 10px;
+    text-align: center;
+    color: #333;
+}
+
+/* Label styling */
+.rain-popup label {
+    font-size: 14px;
+    margin-bottom: 5px;
+    display: block;
+    text-align: left; /* Align label to the left */
+}
+
+/* Input field and dropdown styling */
+.rain-popup input[type="text"],
+.rain-popup select {
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 14px;
+}
+
+/* Button styling */
+.rain-popup button {
+    width: 48%;
+    padding: 10px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    background-color: #4CAF50;
+    color: white;
+    font-size: 14px;
+    margin: 5px 1%;
+    display: inline-block; /* Keep buttons in the same row */
+    text-align: center;
+}
+
+.rain-popup button:hover {
+    background-color: #45a049;
+}
+
+/* Close button with different styling */
+.rain-popup button:nth-child(2) {
+    background-color: #f44336;
+}
+
+.rain-popup button:nth-child(2):hover {
+    background-color: #e53935;
+}
+
+/* Result message styling */
+#rainResult {
+    font-size: 16px;
+    font-weight: bold;
+    color: #333;
+    margin-top: 15px;
+    text-align: center;
 }

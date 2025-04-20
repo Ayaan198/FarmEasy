@@ -42,18 +42,49 @@
             <label for="humidity">Humidity (%):</label>
             <input type="number" name="humidity" id="humidity" step="any" required>
             <span id="humidSensor" class="sensor-value"></span>
-
         
             <label for="ph">Soil pH:</label>
             <input type="number" name="ph" id="ph" step="any" required>
         
             <label for="rainfall">Rainfall (mm):</label>
             <input type="number" name="rainfall" id="rainfall" step="any" required>
+            <a href="#" id="openRainPopup">[ Calculate Rainfall ]</a>
+
         
             <button type="submit" class="cta-button">Predict Crop</button>
         </form>        
     </div>
 
+    <!-- Modal for rainfall calculation (hidden by default) -->
+    <div id="rainPopupContainer" class="rain-popup-container">
+        <div id="rainPopup" class="rain-popup">
+            <h4>Predict Rainfall</h4>
+            <label for="districtInput">District:</label>
+            <input type="text" id="districtInput" onblur="this.value = this.value.trim().toUpperCase();"><br>
+
+            <label for="monthInput">Month:</label>
+            <select id="monthInput">
+                <option value="JAN">January</option>
+                <option value="FEB">February</option>
+                <option value="MAR">March</option>
+                <option value="APR">April</option>
+                <option value="MAY">May</option>
+                <option value="JUN">June</option>
+                <option value="JUL">July</option>
+                <option value="AUG">August</option>
+                <option value="SEP">September</option>
+                <option value="OCT">October</option>
+                <option value="NOV">November</option>
+                <option value="DEC">December</option>
+            </select><br><br>
+
+            <button id="predictRainBtn">Predict</button>
+            <button onclick="document.getElementById('rainPopupContainer').style.display='none'">Close</button>
+
+            <p id="rainResult"></p>
+        </div>
+    </div>
+        
     <footer>
         <p>&copy; 2025 Crop Recommendation. All Rights Reserved.</p>
     </footer>
@@ -109,6 +140,33 @@
     }
 
     fetchSensorData(); // Run on page load
+
+    document.getElementById("openRainPopup").addEventListener("click", function(e) {
+        e.preventDefault();
+        document.getElementById("rainPopup").style.display = "block";
+    });
+
+    document.getElementById("predictRainBtn").addEventListener("click", async function () {
+        const district = document.getElementById("districtInput").value;
+        const month = document.getElementById("monthInput").value;
+
+        const response = await fetch('/predict_rainfall', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ district, month })
+        });
+
+        const data = await response.json();
+        if (data.rainfall) {
+            document.getElementById("rainResult").innerText = `Predicted Rainfall: ${data.rainfall} mm`;
+            document.getElementById("rainfall").value = data.rainfall; // auto-fill the form
+        } else {
+            document.getElementById("rainResult").innerText = `Error: Please check the spelling of the district name.`;
+        }
+    });
+    
 </script>
 </body>
 </html>
