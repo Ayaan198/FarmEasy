@@ -8,15 +8,17 @@
 html, body {
     height: 100%;
     font-family: Arial, sans-serif;
-    background-color: #f4f4f4;
+    margin: 0;
+    padding: 0;
     color: #333;
 }
 
-/* ===== Flex Setup for Sticky Footer ===== */
+/* ===== Flex Setup for Sticky Footer + Gradient ===== */
 body {
     display: flex;
     flex-direction: column;
     min-height: 100vh;
+    background: linear-gradient(to right, #11998e, #38ef7d);
 }
 
 .wrapper {
