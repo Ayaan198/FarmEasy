@@ -374,3 +374,16 @@ footer ul li a:hover {
     margin-top: 15px;
     text-align: center;
 }
+
+.sensor-value {
+    font-weight: bold;
+    color: green;
+    display: block;
+    margin-top: 4px;
+}
+
+.update-time {
+    font-size: 0.85em;
+    color: #555;
+    margin-bottom: 15px;
+}

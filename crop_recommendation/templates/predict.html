@@ -26,33 +26,37 @@
             <label for="N">Nitrogen (N):</label>
             <input type="number" name="N" id="N" step="any" required>
             <span id="nitroSensor" class="sensor-value"></span>
+            <div class="update-time" id="nitroTime"></div>
 
             <label for="P">Phosphorus (P):</label>
             <input type="number" name="P" id="P" step="any" required>
             <span id="phosphSensor" class="sensor-value"></span>
+            <div class="update-time" id="phosphTime"></div>
 
             <label for="K">Potassium (K):</label>
             <input type="number" name="K" id="K" step="any" required>
             <span id="potasSensor" class="sensor-value"></span>
+            <div class="update-time" id="potasTime"></div>
 
             <label for="temperature">Temperature (°C):</label>
             <input type="number" name="temperature" id="temperature" step="any" required>
             <span id="tempSensor" class="sensor-value"></span>
+            <div class="update-time" id="tempTime"></div>
 
             <label for="humidity">Humidity (%):</label>
             <input type="number" name="humidity" id="humidity" step="any" required>
             <span id="humidSensor" class="sensor-value"></span>
-        
+            <div class="update-time" id="humidTime"></div>
+
             <label for="ph">Soil pH:</label>
             <input type="number" name="ph" id="ph" step="any" required>
-        
+
             <label for="rainfall">Rainfall (mm):</label>
             <input type="number" name="rainfall" id="rainfall" step="any" required>
             <a href="#" id="openRainPopup">[ Calculate Rainfall ]</a>
 
-        
             <button type="submit" class="cta-button">Predict Crop</button>
-        </form>        
+        </form>
     </div>
 
     <!-- Modal for rainfall calculation (hidden by default) -->
@@ -91,55 +95,66 @@
 
 <script>
     const channelID = 2645130;
-    const apiKey = 'EYBDTKJWDJHELQN5';
+        const apiKey = 'EYBDTKJWDJHELQN5';
 
-    const TEMP_FIELD = 'field1';
-    const HUMID_FIELD = 'field2';
-    const NITRO_FIELD = 'field3';
-    const PHOSP_FIELD = 'field4';
-    const POTAS_FIELD = 'field5';
+        const TEMP_FIELD = 'field1';
+        const HUMID_FIELD = 'field2';
+        const NITRO_FIELD = 'field3';
+        const PHOSP_FIELD = 'field4';
+        const POTAS_FIELD = 'field5';
 
-    async function fetchSensorData() {
-        try {
-            const response = await fetch(`https://api.thingspeak.com/channels/${channelID}/feeds/last.json?api_key=${apiKey}`);
-            const data = await response.json();
-
-            if (data[TEMP_FIELD]) {
-                const temp = parseFloat(data[TEMP_FIELD]).toFixed(1);
-                document.getElementById('temperature').value = temp;
-                document.getElementById('tempSensor').innerText = `Sensor: ${temp}°C`;
-            }
-
-            if (data[HUMID_FIELD]) {
-                const humid = parseFloat(data[HUMID_FIELD]).toFixed(1);
-                document.getElementById('humidity').value = humid;
-                document.getElementById('humidSensor').innerText = `Sensor: ${humid}%`;
-            }
-
-            if (data[NITRO_FIELD]) {
-                const n = parseFloat(data[NITRO_FIELD]).toFixed(1);
-                document.getElementById('N').value = n;
-                document.getElementById('nitroSensor').innerText = `Sensor: ${n} mg/kg`;
-            }
-
-            if (data[PHOSP_FIELD]) {
-                const p = parseFloat(data[PHOSP_FIELD]).toFixed(1);
-                document.getElementById('P').value = p;
-                document.getElementById('phosphSensor').innerText = `Sensor: ${p} mg/kg`;
-            }
-
-            if (data[POTAS_FIELD]) {
-                const k = parseFloat(data[POTAS_FIELD]).toFixed(1);
-                document.getElementById('K').value = k;
-                document.getElementById('potasSensor').innerText = `Sensor: ${k} mg/kg`;
-            }
-
-        } catch (err) {
-            console.error("ThingSpeak fetch failed:", err);
+        function getCurrentTime() {
+            const now = new Date();
+            return now.toLocaleTimeString(); // you can use .toLocaleString() for full datetime
         }
-    }
 
-    fetchSensorData(); // Run on page load
+        async function fetchSensorData() {
+            try {
+                const response = await fetch(`https://api.thingspeak.com/channels/${channelID}/feeds/last.json?api_key=${apiKey}`);
+                const data = await response.json();
+
+                if (data[TEMP_FIELD]) {
+                    const temp = parseFloat(data[TEMP_FIELD]).toFixed(1);
+                    document.getElementById('temperature').value = temp;
+                    document.getElementById('tempSensor').innerText = `Sensor: ${temp}°C`;
+                    document.getElementById('tempTime').innerText = `Live reading • Last updated: ${getCurrentTime()}`;
+                }
+
+                if (data[HUMID_FIELD]) {
+                    const humid = parseFloat(data[HUMID_FIELD]).toFixed(1);
+                    document.getElementById('humidity').value = humid;
+                    document.getElementById('humidSensor').innerText = `Sensor: ${humid}%`;
+                    document.getElementById('humidTime').innerText = `Live reading • Last updated: ${getCurrentTime()}`;
+                }
+
+                if (data[NITRO_FIELD]) {
+                    const n = parseFloat(data[NITRO_FIELD]).toFixed(1);
+                    document.getElementById('N').value = n;
+                    document.getElementById('nitroSensor').innerText = `Sensor: ${n} mg/kg`;
+                    document.getElementById('nitroTime').innerText = `Live reading • Last updated: ${getCurrentTime()}`;
+                }
+
+                if (data[PHOSP_FIELD]) {
+                    const p = parseFloat(data[PHOSP_FIELD]).toFixed(1);
+                    document.getElementById('P').value = p;
+                    document.getElementById('phosphSensor').innerText = `Sensor: ${p} mg/kg`;
+                    document.getElementById('phosphTime').innerText = `Live reading • Last updated: ${getCurrentTime()}`;
+                }
+
+                if (data[POTAS_FIELD]) {
+                    const k = parseFloat(data[POTAS_FIELD]).toFixed(1);
+                    document.getElementById('K').value = k;
+                    document.getElementById('potasSensor').innerText = `Sensor: ${k} mg/kg`;
+                    document.getElementById('potasTime').innerText = `Live reading • Last updated: ${getCurrentTime()}`;
+                }
+
+            } catch (err) {
+                console.error("ThingSpeak fetch failed:", err);
+            }
+        }
+
+        fetchSensorData(); // Initial run
+        setInterval(fetchSensorData, 15000); // Auto refresh every 15 sec
 
     document.getElementById("openRainPopup").addEventListener("click", function(e) {
         e.preventDefault();
