@@ -5,6 +5,12 @@
     box-sizing: border-box;
 }
 
+.form-width{
+    align-items: center;
+}
+.details{
+    width: 60%;
+}
 html, body {
     height: 100%;
     font-family: Arial, sans-serif;
@@ -110,12 +116,12 @@ header nav ul li a:hover {
 
 /* ===== Container (Shared Section Styling) ===== */
 .container {
-    width: 80%;
+    width: 50%;
     margin: auto;
     padding-top: 20px;     /* Top padding */
     padding-bottom: 20px;  /* Bottom padding */
-    padding-left: 20px;    /* Optional left padding */
-    padding-right: 20px;   /* Optional right padding */
+    padding-left: 90px;    /* Optional left padding */
+    padding-right: 90px;   /* Optional right padding */
     background-color: #fff;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     border-radius: 8px;

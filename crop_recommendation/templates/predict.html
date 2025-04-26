@@ -13,46 +13,48 @@
         </div>
         <nav>
             <ul>
-                <li><a href="/">Home</a></li>
-                <li><a href="">About</a></li>
-                <li><a href="">Contact</a></li>
+                <li><a href="{{ url_for('index') }}">Home</a></li>
+                <li><a href="{{ url_for('about') }}">About</a></li>
             </ul>
         </nav>
     </header>
 
     <div class="container">
+        <br>
         <h2>Enter Soil Parameters for Crop Prediction</h2>
-        <form method="POST" action="/predict">
+        <br>
+        <br>
+        <form  class="form-width" method="POST" action="/predict">
             <label for="N">Nitrogen (N):</label>
-            <input type="number" name="N" id="N" step="any" required>
+            <input class="details" type="number" name="N" id="N" step="any" required>
             <span id="nitroSensor" class="sensor-value"></span>
             <div class="update-time" id="nitroTime"></div>
 
-            <label for="P">Phosphorus (P):</label>
-            <input type="number" name="P" id="P" step="any" required>
+            <label  for="P">Phosphorus (P):</label>
+            <input class="details" type="number" name="P" id="P" step="any" required>
             <span id="phosphSensor" class="sensor-value"></span>
             <div class="update-time" id="phosphTime"></div>
 
             <label for="K">Potassium (K):</label>
-            <input type="number" name="K" id="K" step="any" required>
+            <input class="details" type="number" name="K" id="K" step="any" required>
             <span id="potasSensor" class="sensor-value"></span>
             <div class="update-time" id="potasTime"></div>
 
             <label for="temperature">Temperature (°C):</label>
-            <input type="number" name="temperature" id="temperature" step="any" required>
+            <input class="details" type="number" name="temperature" id="temperature" step="any" required>
             <span id="tempSensor" class="sensor-value"></span>
             <div class="update-time" id="tempTime"></div>
 
             <label for="humidity">Humidity (%):</label>
-            <input type="number" name="humidity" id="humidity" step="any" required>
+            <input class="details" type="number" name="humidity" id="humidity" step="any" required>
             <span id="humidSensor" class="sensor-value"></span>
             <div class="update-time" id="humidTime"></div>
 
             <label for="ph">Soil pH:</label>
-            <input type="number" name="ph" id="ph" step="any" required>
+            <input class="details" type="number" name="ph" id="ph" step="any" required>
 
             <label for="rainfall">Rainfall (mm):</label>
-            <input type="number" name="rainfall" id="rainfall" step="any" required>
+            <input class="details" type="number" name="rainfall" id="rainfall" step="any" required>
             <a href="#" id="openRainPopup">[ Calculate Rainfall ]</a>
 
             <button type="submit" class="cta-button">Predict Crop</button>
