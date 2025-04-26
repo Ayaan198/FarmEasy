@@ -18,6 +18,7 @@
                 <ul>
                     <li><a href="{{ url_for('index') }}">Home</a></li>
                     <li><a href="{{ url_for('about') }}">About</a></li>
+                    <button id="darkModeToggle" class="toggle-btn">Dark Mode</button>
                 </ul>
             </nav>
         </header>
@@ -34,12 +35,32 @@
         <!-- Footer Section inside wrapper -->
         <footer>
             <div class="footer-content">
-                <p>&copy; 2025 Crop Recommendation. All Rights Reserved.</p>
-                <ul>
-                    <li><a href="">About Us</a></li>
-                    <li><a href="">Contact</a></li>
-                </ul>
+                <p style="color: white;">&copy; 2025 FarmEasy. All Rights Reserved.</p>
             </div>
         </footer>
-    </div>    
+    </div>
+<script>
+    const toggleButton = document.getElementById('darkModeToggle');
+    const body = document.body;
+
+    toggleButton.addEventListener('click', () => {
+        body.classList.toggle('dark-mode');
+        
+        // Save the preference
+        if (body.classList.contains('dark-mode')) {
+            localStorage.setItem('theme', 'dark');
+        } else {
+            localStorage.setItem('theme', 'light');
+        }
+    });
+
+    // On page load, check saved theme
+    window.addEventListener('load', () => {
+        const savedTheme = localStorage.getItem('theme');
+        if (savedTheme === 'dark') {
+            body.classList.add('dark-mode');
+        }
+    });
+</script>
+</body>  
 </html>

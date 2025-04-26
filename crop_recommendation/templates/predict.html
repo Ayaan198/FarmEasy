@@ -15,10 +15,11 @@
             <ul>
                 <li><a href="{{ url_for('index') }}">Home</a></li>
                 <li><a href="{{ url_for('about') }}">About</a></li>
+                <button id="darkModeToggle" class="toggle-btn">Dark Mode</button>
             </ul>
         </nav>
     </header>
-
+    <br>
     <div class="container">
         <br>
         <h2>Enter Soil Parameters for Crop Prediction</h2>
@@ -53,6 +54,7 @@
             <label for="ph">Soil pH:</label>
             <input class="details" type="number" name="ph" id="ph" step="any" required>
 
+            <br>
             <label for="rainfall">Rainfall (mm):</label>
             <input class="details" type="number" name="rainfall" id="rainfall" step="any" required>
             <a href="#" id="openRainPopup">[ Calculate Rainfall ]</a>
@@ -60,7 +62,7 @@
             <button type="submit" class="cta-button">Predict Crop</button>
         </form>
     </div>
-
+    <br>
     <!-- Modal for rainfall calculation (hidden by default) -->
     <div id="rainPopupContainer" class="rain-popup-container">
         <div id="rainPopup" class="rain-popup">
@@ -92,7 +94,7 @@
     </div>
         
     <footer>
-        <p>&copy; 2025 Crop Recommendation. All Rights Reserved.</p>
+        <p style="color: white;">&copy; 2025 FarmEasy. All Rights Reserved.</p>
     </footer>
 
 <script>
@@ -155,8 +157,8 @@
             }
         }
 
-        fetchSensorData(); // Initial run
-        setInterval(fetchSensorData, 15000); // Auto refresh every 15 sec
+    fetchSensorData(); // Initial run
+    setInterval(fetchSensorData, 15000); // Auto refresh every 15 sec
 
     document.getElementById("openRainPopup").addEventListener("click", function(e) {
         e.preventDefault();
@@ -183,7 +185,57 @@
             document.getElementById("rainResult").innerText = `Error: Please check the spelling of the district name.`;
         }
     });
-    
+
+    const toggleButton = document.getElementById('darkModeToggle');
+    const body = document.body;
+
+    toggleButton.addEventListener('click', () => {
+        body.classList.toggle('dark-mode');
+        
+        // Save the preference
+        if (body.classList.contains('dark-mode')) {
+            localStorage.setItem('theme', 'dark');
+        } else {
+            localStorage.setItem('theme', 'light');
+        }
+    });
+
+    // On page load, check saved theme
+    window.addEventListener('load', () => {
+        const savedTheme = localStorage.getItem('theme');
+        if (savedTheme === 'dark') {
+            body.classList.add('dark-mode');
+        }
+    });
+
+    // Function to fetch districts based on user input
+    function fetchDistricts(query) {
+        const suggestionList = document.getElementById('districtSuggestions');
+        suggestionList.innerHTML = '';  // Clear previous suggestions
+        if (!query) {
+            suggestionList.style.display = 'none';
+            return;
+        }
+
+        // Fetch the districts from the backend API
+        fetch(`/api/districts?query=${query}`)
+            .then(response => response.json())
+            .then(districts => {
+                suggestionList.style.display = districts.length ? 'block' : 'none';
+                
+                // Display the filtered districts
+                districts.forEach(district => {
+                    const listItem = document.createElement('li');
+                    listItem.textContent = district;
+                    listItem.onclick = function() {
+                        document.getElementById('districtInput').value = district;
+                        suggestionList.style.display = 'none';
+                    };
+                    suggestionList.appendChild(listItem);
+                });
+            });
+    }
+
 </script>
 </body>
 </html>

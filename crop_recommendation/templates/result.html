@@ -16,16 +16,17 @@
                 <li><a href="/">Home</a></li>
                 <li><a href="/predict">Predict Again</a></li>
                 <li><a href="{{ url_for('about') }}">About</a></li>
+                <button id="darkModeToggle" class="toggle-btn">Dark Mode</button>
             </ul>
         </nav>
     </header>
 
     <div class="container">
         <h2 class="heading">Recommended Crop</h2>
-        <p class="prediction-text">The best crop for your soil conditions is: <strong>{{ prediction }}</strong></p>
-    
+        <p class="prediction-text">The best crop for your soil conditions is: <strong>{{ prediction|capitalize }}</strong></p>
+
         <div class="ai-summary">
-            <h3 class="heading">AI Insights for {{ prediction }}</h3>
+            <h3 class="heading" id="aiInsightsHeading">AI Insights for {{ prediction|capitalize }}</h3>
             <div class="ai-insights">
                 {{ ai_summary|safe }}
             </div>
@@ -33,35 +34,123 @@
     
         <a href="/predict" class="cta-button">Go Back</a>
     </div>
-            
+
+    <!-- Popup for crop pun -->
+    <div class="popup" id="punPopup" style="text-align: center;">
+        <h4 id="punMessage" style="margin-bottom: 20px;">This is your message</h4>
+        <button id="closePopup" style="padding: 10px 20px; font-size: 16px; cursor: pointer;">Close</button>
+      </div>
 
     <footer>
-        <p>&copy; 2025 Crop Recommendation. All Rights Reserved.</p>
+        <p style="color: white;">&copy; 2025 FarmEasy. All Rights Reserved.</p>
     </footer>
 
     <script>
-    document.addEventListener("DOMContentLoaded", () => {
-        const container = document.querySelector(".ai-insights");
-        if (!container) return;
+        // Array of fun crop-related puns
+        const cropPuns = [
+            "Lettuce tell you, this crop is the best!",
+            "You've got to be squashing your doubts, this is the one!",
+            "This crop will leaf you speechless!",
+            "The harvest is in, and it's grape news!",
+            "You've planted a seed of greatness with this crop!",
+            "Time to turnip the excitement, this crop is a winner!",
+            "You're radishing the competition with this one!",
+            "This crop is unbe-leaf-able, you won't want to miss it!",
+            "Let's root for this crop, it's growing on me!",
+            "You're corny if you don't choose this one!",
+            "This crop is a-peeling, you won't regret it!",
+            "It's a blooming success, just wait and see!",
+            "This one's a-maize-ing, you'll be hooked!",
+            "You've bean on point with this crop choice!",
+            "This crop is a real gem, it'll sprout up to greatness!",
+            "This crop is un-pea-lievable, you won't believe it!",
+            "It's a berry good choice, you're on the right track!",
+            "Let's not beet around the bush, this is the one!",
+            "This crop is egg-cellent, it's a cracking choice!",
+            "You're sowing the seeds of success with this one!",
+            "This crop is root-ine-ally fantastic!",
+            "Peas, don't wait any longer, this one's ripe for the picking!",
+            "You'll be the apple of the crop with this pick!",
+            "This crop is gourd-geous, you'll be hooked!",
+            "You're in the green with this crop, it's a great pick!"
+        ];
 
-        const rawText = container.innerText.trim();
-        const sectionPattern = /\*\*(.*?)\*\*\s*([^*]+)/gs;
-        let match;
-        let formattedHTML = "";
-
-        while ((match = sectionPattern.exec(rawText)) !== null) {
-            const heading = match[1].trim();
-            const body = match[2].trim();
-            formattedHTML += `
-                <div class="insight-section" style="margin-bottom: 12px;">
-                    <h4 style="margin: 0 0 4px; color: #2c3e50;">${heading}</h4>
-                    <p style="margin: 0 0 4px 12px; line-height: 1.4;">${body}</p>
-                </div>
-            `;
+        // Function to generate a random pun
+        function getRandomPun() {
+            const randomIndex = Math.floor(Math.random() * cropPuns.length);
+            return cropPuns[randomIndex];
         }
 
-        container.innerHTML = formattedHTML;
-    });
+        // Open the pun popup when the user clicks on AI Insights heading
+        document.getElementById('aiInsightsHeading').addEventListener('click', () => {
+            const pun = getRandomPun();  // Get a random pun
+            document.getElementById('punMessage').innerText = pun;  // Display the pun in the popup
+            const popup = document.getElementById('punPopup');
+            
+            // Add the 'show' class to trigger the fade-in and bounce effect
+            popup.classList.add('show');
+            popup.classList.remove('hide');  // Ensure it's not hiding when shown
+        });
+
+        // Close the popup with smooth animation
+        document.getElementById('closePopup').addEventListener('click', () => {
+            const popup = document.getElementById('punPopup');
+            
+            // Add the 'hide' class to trigger the shrink and fade-out effect
+            popup.classList.add('hide');
+            
+            // After the animation ends, hide the popup completely
+            setTimeout(() => {
+                popup.classList.remove('show', 'hide');  // Reset the popup state for future shows
+            }, 300);  // Wait for the shrink effect to finish before removing the classes
+        });
+
+        // Dark Mode toggle functionality
+        const toggleButton = document.getElementById('darkModeToggle');
+        const body = document.body;
+
+        toggleButton.addEventListener('click', () => {
+            body.classList.toggle('dark-mode');
+            
+            // Save the preference
+            if (body.classList.contains('dark-mode')) {
+                localStorage.setItem('theme', 'dark');
+            } else {
+                localStorage.setItem('theme', 'light');
+            }
+        });
+
+        // On page load, check saved theme
+        window.addEventListener('load', () => {
+            const savedTheme = localStorage.getItem('theme');
+            if (savedTheme === 'dark') {
+                body.classList.add('dark-mode');
+            }
+        });
+
+        // Process the AI summary text to format it into sections
+        document.addEventListener("DOMContentLoaded", () => {
+            const container = document.querySelector(".ai-insights");
+            if (!container) return;
+
+            const rawText = container.innerText.trim();
+            const sectionPattern = /\*\*(.*?)\*\*\s*([^*]+)/gs;
+            let match;
+            let formattedHTML = "";
+
+            while ((match = sectionPattern.exec(rawText)) !== null) {
+                const heading = match[1].trim();
+                const body = match[2].trim();
+                formattedHTML += `
+                    <div class="insight-section" style="margin-bottom: 12px;">
+                        <h4 style="margin: 0 0 4px; color: #2c3e50;">${heading}</h4>
+                        <p style="margin: 0 0 4px 12px; line-height: 1.4;">${body}</p>
+                    </div>
+                `;
+            }
+
+            container.innerHTML = formattedHTML;
+        });
     </script>
 </body>
 </html>
