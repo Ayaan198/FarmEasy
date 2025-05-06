@@ -2,7 +2,7 @@ from flask import Flask, render_template, request
 import joblib
 import numpy as np
 from sklearn.preprocessing import StandardScaler
-from groq_ai import get_crop_info_from_groq
+import groq
 import os
 from flask import jsonify
 import pandas as pd
