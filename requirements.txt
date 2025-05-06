@@ -37,11 +37,11 @@ google-auth==2.38.0
 google-auth-httplib2==0.2.0
 google-generativeai==0.8.5
 google-pasta==0.2.0
-googleapis-common-protos==1.66.0
+googleapis-common-protos
 greenlet==3.2.0
 groq==0.22.0
 grpcio==1.70.0
-grpcio-status==1.70.0
+grpcio-status
 gunicorn==23.0.0
 h11==0.14.0
 h5py==3.13.0
@@ -100,7 +100,7 @@ platformdirs==4.3.6
 prompt_toolkit==3.0.50
 propcache==0.3.1
 proto-plus==1.26.0
-protobuf>=3.20.2,<5.0
+protobuf>=3.20.2,<6.0
 
 psutil==6.1.1
 pure_eval==0.2.3
