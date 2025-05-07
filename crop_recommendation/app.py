@@ -3,6 +3,7 @@ import joblib
 import numpy as np
 from sklearn.preprocessing import StandardScaler
 import groq
+from groq_ai import get_crop_info_from_groq
 import os
 from flask import jsonify
 import pandas as pd
