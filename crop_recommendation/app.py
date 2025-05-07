@@ -7,6 +7,7 @@ from groq_ai import get_crop_info_from_groq
 import os
 from flask import jsonify
 import pandas as pd
+import os
 from dotenv import load_dotenv
 load_dotenv()
 
@@ -22,6 +23,8 @@ rain_model = joblib.load(os.path.join(basedir, 'rainfall_model.pkl'))
 month_encoder = joblib.load(os.path.join(basedir, 'month_encoder.pkl'))
 district_encoder = joblib.load(os.path.join(basedir, 'district_encoder.pkl'))
 rain_scaler = joblib.load(os.path.join(basedir, 'rainfall_scaler.pkl'))
+
+groq_api_key = os.getenv("GROQ_API_KEY")
 
 @app.route('/')
 def index():
